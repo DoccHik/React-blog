@@ -1,0 +1,19 @@
+.posts {
+  background-color: #333;
+  box-shadow: 0px 0px 15px #000;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
+  grid-gap: 20px 20px;
+  border-radius: 20px;
+}
+
+h1 {
+  /* display: block; */
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  margin: 20px 0px 20px 0px;
+  text-shadow: 0px 0px 8px #fff;
+}

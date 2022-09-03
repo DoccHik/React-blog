@@ -1,0 +1,39 @@
+.post {
+  background-color: #fff;
+  padding: 20px 10px 20px 10px;
+  color: #000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  display: inline-block;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 10px 20px 10px 20px;
+  margin: 0px 0px 20px 0px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.post-description {
+  margin: 0px 0px 10px 0px;
+}
+.post-del__btn {
+  background-color: transparent;
+  /* height: 100%; */
+  border-radius: 10px 10px 10px 10px;
+  padding: 10px 2px;
+  transition: all 0.3s ease;
+}
+
+.post-del__btn:hover {
+  background-color: #c8c8c8;
+}
+
+.post svg {
+  font-size: 30px;
+}
