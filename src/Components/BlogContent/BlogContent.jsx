@@ -2,12 +2,14 @@ import React from "react";
 import { posts } from "../../shared/ProjectData";
 
 import "../BlogContent/BlogContent.css";
+import AddPostForm from "./components/AddPostForm/AddPostForm";
 import BlogCard from "./components/BlogCard";
 
 class BlogContent extends React.Component {
   // состояния
   state = {
-    showBlog: true,
+    showAddPostForm: false,
+    // showBlog: true,
     blogArr: JSON.parse(localStorage.getItem("blogPosts")) || posts,
   };
 
@@ -25,14 +27,14 @@ class BlogContent extends React.Component {
   };
 
   // Функция которая скрывает и показывает БЛОГ
-  toggleShowBlog = () => {
-    // Меняем состояние state в showBlog
-    this.setState(({ showBlog }) => {
-      return {
-        showBlog: !showBlog,
-      };
-    });
-  };
+  // toggleShowBlog = () => {
+  //   // Меняем состояние state в showBlog
+  //   this.setState(({ showBlog }) => {
+  //     return {
+  //       showBlog: !showBlog,
+  //     };
+  //   });
+  // };
 
   // Удаление постов
   deletePost = (pos) => {
@@ -55,6 +57,28 @@ class BlogContent extends React.Component {
     }
   };
 
+  // Открыть форму для добавления новых постов
+  openAddPostForm = () => {
+    this.setState({
+      showAddPostForm: !this.state.showAddPostForm,
+    });
+  };
+
+  // Закрыть форму добавления постов
+  hideAddPostForm = () => {
+    this.setState({
+      showAddPostForm: !this.state.showAddPostForm,
+    });
+  };
+
+  //* Закрыть форму добавления постов по клике на overlay
+  // hideAddPostOverlay = (e) => {
+  //   console.log(e.target);
+  //   this.setState({
+  //     showAddPostForm: !this.state.showAddPostForm,
+  //   });
+  // };
+
   render() {
     const blogPosts = this.state.blogArr.map((item, pos) => {
       return (
@@ -70,21 +94,26 @@ class BlogContent extends React.Component {
     });
     return (
       <>
-        {this.state.showBlog ? "Блог показан" : "Блог скрыт"}
-        <button style={{ color: "#fff" }} onClick={this.toggleShowBlog}>
+        {/* {this.state.showBlog ? "Блог показан" : "Блог скрыт"} */}
+
+        {/* <button style={{ color: "#fff" }} onClick={this.toggleShowBlog}>
           {this.state.showBlog ? "Скрыть блог" : "Показать блог"}
-        </button>
-        {this.state.showBlog ? (
-          <div className="container">
-            <h1>SimpleBlog</h1>
-            <div className="posts">{blogPosts}</div>
-          </div>
+        </button> */}
+
+        {this.state.showAddPostForm ? (
+          <AddPostForm hideAddPostForm={this.hideAddPostForm} />
         ) : null}
+
+        <div className="container">
+          <h1>SimpleBlog</h1>
+          <button onClick={this.openAddPostForm} className="open-add-form">
+            Создать новый пост
+          </button>
+          <div className="posts">{blogPosts}</div>
+        </div>
       </>
     );
   }
 }
 
 export default BlogContent;
-
-// ! https://youtu.be/hYia2jT8nD8?t=3 lesson-8
