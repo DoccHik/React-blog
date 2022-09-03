@@ -24,6 +24,18 @@ class AddPostForm extends React.Component {
       postDescription: e.target.value,
     });
   };
+
+  createNewPost = () => {
+    const post = {
+      id: this.props.blogArr.length + 1,
+      title: this.state.postTitle,
+      description: this.state.postDescription,
+      liked: false,
+    };
+
+    this.props.addNewBlogPost(post);
+    // console.log(post);
+  };
   render() {
     const hideAddPostForm = this.props.hideAddPostForm;
     return (
@@ -54,7 +66,11 @@ class AddPostForm extends React.Component {
               />
             </div>
             <div>
-              <button className="add-post-btn" type="button">
+              <button
+                onClick={this.createNewPost}
+                className="add-post-btn"
+                type="button"
+              >
                 Опубликовать пост
               </button>
             </div>

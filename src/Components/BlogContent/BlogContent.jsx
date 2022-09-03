@@ -27,14 +27,15 @@ class BlogContent extends React.Component {
   };
 
   // Функция которая скрывает и показывает БЛОГ
-  // toggleShowBlog = () => {
-  //   // Меняем состояние state в showBlog
-  //   this.setState(({ showBlog }) => {
-  //     return {
-  //       showBlog: !showBlog,
-  //     };
-  //   });
-  // };
+
+  /*  toggleShowBlog = () => {
+    // Меняем состояние state в showBlog
+    this.setState(({ showBlog }) => {
+      return {
+        showBlog: !showBlog,
+      };
+    });
+  }; */
 
   // Удаление постов
   deletePost = (pos) => {
@@ -71,13 +72,53 @@ class BlogContent extends React.Component {
     });
   };
 
-  //* Закрыть форму добавления постов по клике на overlay
+  //! Закрыть форму добавления постов по клике на overlay
   // hideAddPostOverlay = (e) => {
   //   console.log(e.target);
   //   this.setState({
   //     showAddPostForm: !this.state.showAddPostForm,
   //   });
   // };
+
+  // Обратботка клика по Escape при открытой форме
+  handleEscape = (e) => {
+    if (e.key === "Escape" && this.state.showAddPostForm) {
+      // console.log("нажали esc");
+      this.hideAddPostForm();
+    }
+  };
+
+  // Добавляем новый пост в массив
+  addNewBlogPost = (blogPost) => {
+    // Копируем исходный массив в переменную temp
+    const temp = [...this.state.blogArr];
+    temp.push(blogPost);
+
+    // Обновляем состояние массива
+    this.setState((state) => {
+      const posts = [...state.blogArr];
+      posts.push(blogPost);
+
+      // Сохраняем созданный пост в памяти localStorage
+      localStorage.setItem("blogPosts", JSON.stringify(posts));
+
+      return {
+        blogArr: posts,
+      };
+    });
+    // И скрываем форму после создани поста(после клика по кнопке СОЗДАТЬ ПОСТ)
+    this.hideAddPostForm();
+  };
+
+  // Закрываем форму по клике на Escape
+  componentDidMount() {
+    window.addEventListener("keyup", this.handleEscape);
+  }
+
+  // Удаляем собитые по нажатию на Escape, после закрытия формы
+  componentWillUnmount() {
+    window.removeEventListener("keyup", this.handleEscape);
+  }
 
   render() {
     const blogPosts = this.state.blogArr.map((item, pos) => {
@@ -101,7 +142,10 @@ class BlogContent extends React.Component {
         </button> */}
 
         {this.state.showAddPostForm ? (
-          <AddPostForm hideAddPostForm={this.hideAddPostForm} />
+          <AddPostForm
+            blogArr={this.state.blogArr}
+            addNewBlogPost={this.addNewBlogPost}
+          />
         ) : null}
 
         <div className="container">

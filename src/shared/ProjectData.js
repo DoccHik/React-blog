@@ -17,16 +17,5 @@ export const posts = [
 		description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur reprehenderit veritatis fugiat dolorem nostrum. Repellendus nihil deserunt autem debitis. Modi.",
 		liked: false,
 	},
-	{
-		id: 4,
-		title: "Post 4",
-		description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur reprehenderit veritatis fugiat dolorem nostrum. Repellendus nihil deserunt autem debitis. Modi.",
-		liked: false,
-	},
-	{
-		id: 5,
-		title: "Post 5",
-		description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur reprehenderit veritatis fugiat dolorem nostrum. Repellendus nihil deserunt autem debitis. Modi.",
-		liked: false,
-	},
+
 ];
