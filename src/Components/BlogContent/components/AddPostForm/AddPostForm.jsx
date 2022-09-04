@@ -25,7 +25,9 @@ class AddPostForm extends React.Component {
     });
   };
 
-  createNewPost = () => {
+  // Создаем новый пост
+  createNewPost = (e) => {
+    // e.pereventDefault();
     const post = {
       id: this.props.blogArr.length + 1,
       title: this.state.postTitle,
@@ -35,7 +37,25 @@ class AddPostForm extends React.Component {
 
     this.props.addNewBlogPost(post);
     // console.log(post);
+
+    // Закрываем форму
+    this.props.hideAddPostForm();
   };
+
+  // todo Содаем пост по клику на клавишу Enter
+
+  handleEnter = (e) => {
+    if (e.key === "Enter" && this.props.showAddPostForm) {
+      this.createNewPost();
+      console.log("Вы нажали на Enter");
+    }
+  };
+
+  // todo Создаем событие Enter для создания поста
+  componentDidMount() {
+    window.addEventListener("Enter", this.handleEnter);
+  }
+
   render() {
     const hideAddPostForm = this.props.hideAddPostForm;
     return (
@@ -44,7 +64,7 @@ class AddPostForm extends React.Component {
           <button onClick={hideAddPostForm} className="overlay-close__btn">
             <CloseRoundedIcon />
           </button>
-          <form action="" className="add-post-form">
+          <form onSubmit={this.createNewPost} className="add-post-form">
             <h2 className="add-post__heading">Новый пост</h2>
             <div>
               <input
@@ -54,6 +74,7 @@ class AddPostForm extends React.Component {
                 placeholder="Напишите название"
                 value={this.state.postTitle}
                 onChange={this.handlePostTitleChange}
+                required
               />
             </div>
             <div>
@@ -63,14 +84,11 @@ class AddPostForm extends React.Component {
                 placeholder="Напишите текст"
                 value={this.state.postDescription}
                 onChange={this.handlePostDescriptionChange}
+                required
               />
             </div>
             <div>
-              <button
-                onClick={this.createNewPost}
-                className="add-post-btn"
-                type="button"
-              >
+              <button className="add-post-btn" type="submit">
                 Опубликовать пост
               </button>
             </div>
@@ -82,3 +100,9 @@ class AddPostForm extends React.Component {
 }
 
 export default AddPostForm;
+
+// todo
+/*  
+  1 - Написать функцию, кторая будет создавать пост по клику на клавшу Enter. Так же удалить собития 
+  2 - Изменить функцию лайков на коллбек как на примере addNewBlogPost
+*/

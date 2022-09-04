@@ -1,5 +1,6 @@
+import axios from "axios";
 import React from "react";
-import { posts } from "../../shared/ProjectData";
+// import { posts } from "../../shared/ProjectData";
 
 import "../BlogContent/BlogContent.css";
 import AddPostForm from "./components/AddPostForm/AddPostForm";
@@ -10,7 +11,7 @@ class BlogContent extends React.Component {
   state = {
     showAddPostForm: false,
     // showBlog: true,
-    blogArr: JSON.parse(localStorage.getItem("blogPosts")) || posts,
+    blogArr: [],
   };
 
   // Лайк постовы
@@ -107,11 +108,22 @@ class BlogContent extends React.Component {
       };
     });
     // И скрываем форму после создани поста(после клика по кнопке СОЗДАТЬ ПОСТ)
-    this.hideAddPostForm();
+    // this.hideAddPostForm();
   };
 
   // Закрываем форму по клике на Escape
   componentDidMount() {
+    axios
+      .get("https://6314786cfc9dc45cb4ee0081.mockapi.io/posts")
+      .then((response) => {
+        // console.log(response);
+        this.setState({
+          blogArr: response.data,
+        });
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
     window.addEventListener("keyup", this.handleEscape);
   }
 
@@ -133,6 +145,10 @@ class BlogContent extends React.Component {
         />
       );
     });
+
+    if (this.state.blogArr.length === 0) {
+      return <h1>Загружаю данные...</h1>;
+    }
     return (
       <>
         {/* {this.state.showBlog ? "Блог показан" : "Блог скрыт"} */}
@@ -145,11 +161,13 @@ class BlogContent extends React.Component {
           <AddPostForm
             blogArr={this.state.blogArr}
             addNewBlogPost={this.addNewBlogPost}
+            hideAddPostForm={this.hideAddPostForm}
+            showAddPostForm={this.showAddPostForm}
           />
         ) : null}
 
         <div className="container">
-          <h1>SimpleBlog</h1>
+          <h1>Блог</h1>
           <button onClick={this.openAddPostForm} className="open-add-form">
             Создать новый пост
           </button>
