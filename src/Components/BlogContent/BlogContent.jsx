@@ -12,6 +12,28 @@ class BlogContent extends React.Component {
     showAddPostForm: false,
     // showBlog: true,
     blogArr: [],
+    isPending: true,
+  };
+
+  fetchPost = () => {
+    this.setState({
+      isPending: true,
+    });
+    // Делаем запрос на получение данных(посты)
+    axios
+      .get("https://6314786cfc9dc45cb4ee0081.mockapi.io/posts")
+      .then((response) => {
+        // console.log(response);
+
+        // Добавляем данные в состояние
+        this.setState({
+          blogArr: response.data,
+          isPending: false,
+        });
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   // Лайк постовы
@@ -39,23 +61,31 @@ class BlogContent extends React.Component {
   }; */
 
   // Удаление постов
-  deletePost = (pos) => {
-    if (
-      window.confirm(
-        `Вы точно хотите удалить ${this.state.blogArr[pos].title}?`
-      )
-    ) {
+  deletePost = (blogPost) => {
+    if (window.confirm(`Вы точно хотите удалить ${blogPost.title}?`)) {
+      axios
+        .delete(
+          `https://6314786cfc9dc45cb4ee0081.mockapi.io/posts/${blogPost.id}`
+        )
+        .then((response) => {
+          console.log(`Пост удален => ${response.data}`);
+          this.fetchPost();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       // Копия массива через spread(...) и присваивание в переменную temp
-      const temp = [...this.state.blogArr];
-      temp.splice(pos, 1);
-      console.log("Эталонный массив =>", this.state.blogArr);
-      console.log("Временный массив =>", temp);
+      // const temp = [...this.state.blogArr];
+      // temp.splice(pos, 1);
+      // console.log("Эталонный массив =>", this.state.blogArr);
+      // console.log("Временный массив =>", temp);
 
       // Присваивание временного массива в исходное состояние
-      this.setState({
-        blogArr: temp,
-      });
-      localStorage.setItem("blogPosts", JSON.stringify(temp));
+      // this.setState({
+      //   blogArr: temp,
+      // });
+      // localStorage.setItem("blogPosts", JSON.stringify(temp));
     }
   };
 
@@ -113,17 +143,7 @@ class BlogContent extends React.Component {
 
   // Закрываем форму по клике на Escape
   componentDidMount() {
-    axios
-      .get("https://6314786cfc9dc45cb4ee0081.mockapi.io/posts")
-      .then((response) => {
-        // console.log(response);
-        this.setState({
-          blogArr: response.data,
-        });
-      })
-      .catch((err) => {
-        // console.log(err);
-      });
+    this.fetchPost();
     window.addEventListener("keyup", this.handleEscape);
   }
 
@@ -141,7 +161,7 @@ class BlogContent extends React.Component {
           description={item.description}
           liked={item.liked}
           likePost={() => this.likePost(pos)}
-          deletePost={() => this.deletePost(pos)}
+          deletePost={() => this.deletePost(item)}
         />
       );
     });
@@ -168,9 +188,19 @@ class BlogContent extends React.Component {
 
         <div className="container">
           <h1>Блог</h1>
+          Так же послушай радио
+          <iframe
+            style={{ "border-radius": 10 }}
+            src="https://radiovolna.net/embed/?ids=1570&logo=1&bg=%23f5f6f9&title=%231b1c1f"
+            frameborder="0"
+            width="100%"
+            height="55px"
+            scrolling="no"
+          ></iframe>
           <button onClick={this.openAddPostForm} className="open-add-form">
             Создать новый пост
           </button>
+          {this.state.isPending && "Подождите, идет загрузка сервера"}
           <div className="posts">{blogPosts}</div>
         </div>
       </>
