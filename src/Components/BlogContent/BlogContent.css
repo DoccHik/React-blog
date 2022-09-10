@@ -1,12 +1,24 @@
+.blog-page {
+  position: relative;
+  padding: 0px 10px 0px 10px;
+}
+
+.blog-page .preloader {
+  background-color: #000;
+  border-radius: 50%;
+  padding: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+
 .posts {
   background-color: rgba(0, 0, 0, 0.7);
   box-shadow: 0px 0px 2px #2daecd;
   padding: 20px;
   margin: 0px 0px 20px 0px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(auto, 1fr);
-  grid-gap: 20px 20px;
+  grid-gap: 20px 10px;
   border-radius: 20px;
 }
 

@@ -1,10 +1,12 @@
 .post {
   background-color: #fff;
   padding: 20px 10px 20px 10px;
+  margin: 10px 0px 10px 0px;
   color: #000;
   border-radius: 10px;
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .title {
@@ -20,8 +22,17 @@
 }
 
 .post-description {
-  margin: 0px 0px 10px 0px;
+  max-width: 500px;
+  padding: 0px 0px 10px 0px;
+  /* margin: 0px 0px 10px 0px; */
 }
+
+.post-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .post-del__btn {
   background-color: transparent;
   /* height: 100%; */

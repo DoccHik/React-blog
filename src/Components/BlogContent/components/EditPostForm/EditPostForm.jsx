@@ -1,12 +1,12 @@
 import React from "react";
 
-import "../AddPostForm/AddPostForm.css";
+import "../EditPostForm/EditPostForm.css";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-class AddPostForm extends React.Component {
+class EditPostForm extends React.Component {
   state = {
-    postTitle: "",
-    postDescription: "",
+    postTitle: this.props.selectedPost.title,
+    postDescription: this.props.selectedPost.description,
   };
 
   handlePostTitleChange = (e) => {
@@ -25,24 +25,20 @@ class AddPostForm extends React.Component {
     });
   };
 
-  // Создаем новый пост
-  createNewPost = (e) => {
-    // e.pereventDefault();
+  savePost = (e) => {
+    e.preventDefault();
+
     const post = {
-      // id: this.props.blogArr.length + 1,
+      id: this.props.selectedPost.id,
       title: this.state.postTitle,
       description: this.state.postDescription,
-      liked: false,
+      liked: this.props.selectedPost.liked,
     };
 
-    this.props.addNewBlogPost(post);
-    // console.log(post);
+    this.props.editBlogPost(post);
 
-    // Закрываем форму после создания поста
-    this.props.hideAddPostForm();
+    this.props.hideEditPostForm();
   };
-
-  // todo Содаем пост по клику на клавишу Enter
 
   handleEnter = (e) => {
     if (e.key === "Enter" && this.props.showAddPostForm) {
@@ -51,39 +47,33 @@ class AddPostForm extends React.Component {
     }
   };
 
-  // todo Создаем событие Enter для создания поста
-
-  // Обратботка клика по Escape при открытой форме
   handleEscape = (e) => {
     if (e.key === "Escape") {
-      // console.log("нажали esc");
-      this.props.hideAddPostForm();
+      this.props.hideEditPostForm();
     }
   };
 
-  // Закрываем форму по клике на Escape
   componentDidMount() {
     window.addEventListener("keyup", this.handleEscape);
   }
 
-  // Очищаем историю событий
   componentWillUnmount() {
     window.removeEventListener("keyup", this.handleEscape);
   }
 
   render() {
-    const hideAddPostForm = this.props.hideAddPostForm;
+    const hideEditPostForm = this.props.hideEditPostForm;
     return (
       <>
         <div className="overlay">
-          <button onClick={hideAddPostForm} className="overlay-close__btn">
+          <button onClick={hideEditPostForm} className="overlay-close__btn">
             <CloseRoundedIcon />
           </button>
-          <form onSubmit={this.createNewPost} className="add-post-form">
-            <h2 className="add-post__heading">Новый пост</h2>
+          <form onSubmit={this.savePost} className="edit-post-form">
+            <h2 className="edit-post__heading">Изменить пост</h2>
             <div>
               <input
-                className="add-post-title"
+                className="edit-post-title"
                 type="text"
                 name="postTitle"
                 placeholder="Напишите название"
@@ -94,7 +84,7 @@ class AddPostForm extends React.Component {
             </div>
             <div>
               <textarea
-                className="add-post-description"
+                className="edit-post-description"
                 name="postDescription"
                 placeholder="Напишите текст"
                 value={this.state.postDescription}
@@ -103,8 +93,12 @@ class AddPostForm extends React.Component {
               />
             </div>
             <div>
-              <button className="add-post-btn" type="submit">
-                Опубликовать пост
+              <button
+                onClick={this.props.saveEditPost}
+                className="edit-post-btn"
+                type="submit"
+              >
+                Сохранить изменения
               </button>
             </div>
           </form>
@@ -114,7 +108,7 @@ class AddPostForm extends React.Component {
   }
 }
 
-export default AddPostForm;
+export default EditPostForm;
 
 // todo
 /*  
